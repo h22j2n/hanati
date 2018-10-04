@@ -1,0 +1,12 @@
+@charset "utf-8"; /* html에서 메타태그 역할, css에서는 굳이 안써도 됨*/
+
+/* CSS 선택자(selector) */
+body{
+  font-family: 굴림
+}
+
+p {
+  font-size: 20pt; 
+  color: red;
+  background-color: gold;
+}
