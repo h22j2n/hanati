@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AMS</title>
+<link href="./css/common.css" type="text/css" rel="stylesheet">
+<script src="./js/Account.js"></script>
+<script src="./js/MinusAccount.js"></script>
+<script src="./js/AccountManager.js"></script>
+
+<script type="text/javascript">
+
+//추가된것 표시 , 제거, 변경, alert제거, 
+	var account = new Account('1111-1111-1111', '조희진', 1111, 10000);
+	var account3 = new Account('3333-1111-1111', '서지원', 1111, 30000);
+	var account4 = new Account('4444-1111-1111', '이철우', 1111, 40000);
+	var account5 = new Account('5555-1111-1111', '권현우', 1111, 50000);
+	var account6 = new MinusAccount('9999-1111-1111', '양의지', 1111, 50000,
+			100000);
+	var account7 = new MinusAccount('8888-1111-1111', '박건우', 1111, 50000,
+			150000);
+
+	var manager = new AccountManager();
+	manager.add(account);
+	manager.add(account3);
+	manager.add(account4);
+	manager.add(account7);
+	manager.add(account5);
+	manager.add(account6);
+
+	
+	
+	window.onload = function() {
+		
+			document.getElementById('loan').disabled = true;
+		
+		init();
+		eventRegist();
+	}
+
+	function init() {
+		var frm_elements = document.getElementById('myForm').elements;
+		for (i = 0; i < frm_elements.length; i++) {
+			field_type = frm_elements[i].type.toLowerCase();
+			switch (field_type) {
+			case "text":
+			case "password":
+			case "search":
+				frm_elements[i].value = "";
+				break;
+			case "select-multi":
+				frm_elements[i].selectedIndex = -1;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	/** 이벤트소스에 이벤트리스너 등록*/
+	function eventRegist() {
+		var listnerRegist = document.getElementById('regist');
+		listnerRegist.onclick = function() {
+			Add();
+		}
+		var listnerShow = document.getElementById('show');
+		listnerShow.onclick = function() {
+			show();
+		}
+		var listnerDelete = document.getElementById('delete');
+		listnerDelete.onclick = function() {
+			removeAccount();
+		}
+		var listnerList = document.getElementById('listall');
+		listnerList.onclick = function() {
+			listAccount();
+		}
+		var listnerSearch = document.getElementById('search');
+		listnerSearch.onclick = function() {
+			nameSearch();
+		}
+		var listnerSelect = document.getElementById('kind');
+		listnerSelect.onclick = function(){
+			able();
+		}
+
+	}
+
+	/* 대출금액 활성화/비활성화 */
+	function able(){
+		if(document.getElementById('kind').value =='마이너스 계좌'){
+			document.getElementById('loan').disabled = false;
+		}else{
+			document.getElementById('loan').disabled = true;
+		}
+	}
+	
+	/* 계좌번호로 계좌 검색 함수*/
+	function show() {
+		var accountNum = document.all.SearchAccNum.value;
+		var account = manager.get(accountNum);
+		var data = null;
+		if (account != null) {
+			if (account instanceof MinusAccount) {
+				data = [ {
+					accountKind : '마이너스계좌',
+					accountNum : account.accountNum,
+					name : account.accountOwner,
+					deposit : account.restMoney,
+					loan : account.borrowMoney
+				} ]
+			} else {
+				data = [ {
+					accountKind : '입출금계좌',
+					accountNum : account.accountNum,
+					name : account.accountOwner,
+					deposit : account.restMoney,
+					loan : ''
+				} ]
+			}
+
+			template(data);
+		}
+	}
+
+	/* 계좌 삭제 함수*/
+	function removeAccount() {
+		var accountNum = document.all.SearchAccNum.value;
+		manager.remove(accountNum);
+	}
+
+	/* 전체 계좌 조회 함수*/
+	function listAccount() {
+		var accounts = manager.list();
+		var data = [];
+		var tmp = null;
+		for (var i = 0; i < accounts.length; i++) {
+			if (accounts[i] instanceof MinusAccount) {
+				tmp = {
+					accountKind : '마이너스계좌',
+					accountNum : accounts[i].accountNum,
+					name : accounts[i].accountOwner,
+					deposit : accounts[i].restMoney,
+					loan : accounts[i].borrowMoney
+				}
+			} else {
+				tmp = {
+					accountKind : '입출금계좌',
+					accountNum : accounts[i].accountNum,
+					name : accounts[i].accountOwner,
+					deposit : accounts[i].restMoney,
+					loan : ''
+				}
+			}
+			data.push(tmp);
+		}
+		template(data);
+	}
+
+	/* 이름으로 계좌 조회 함수 */
+	function nameSearch() {
+		var accountOwner = document.all.searchName.value;
+		var account = manager.search(accountOwner)
+		var data = null;
+		if (account != null) {
+			if (account instanceof MinusAccount) {
+				data = [ {
+					accountKind : '마이너스계좌',
+					accountNum : account.accountNum,
+					name : account.accountOwner,
+					deposit : account.restMoney.replace(
+							/\B(?=(\d{3})+(?!\d))/g, ","),
+					loan : account.borrowMoney.toString().replace(
+							/\B(?=(\d{3})+(?!\d))/g, ",")
+				} ]
+			} else {
+				data = [ {
+					accountKind : '입출금계좌',
+					accountNum : account.accountNum,
+					name : account.accountOwner,
+					deposit : account.restMoney.replace(
+							/\B(?=(\d{3})+(?!\d))/g, ","),
+					loan : ''
+				} ]
+			}
+
+			template(data);
+		}
+	}
+
+	/* 테이블에 추가하는 템플릿 */
+	function template(data) {
+		var html = document.querySelector("#template-table").innerHTML;
+
+		var resultHTML = "";
+
+		for (var i = 0; i < data.length; i++) {
+			resultHTML += html.replace("{accountKind}", data[i].accountKind)
+					.replace("{accountNum}", data[i].accountNum).replace(
+							"{name}", data[i].name).replace("{deposit}",
+							data[i].deposit).replace("{loan}", data[i].loan);
+
+		}
+
+		document.querySelector('#insertBody').innerHTML = resultHTML;
+	}
+
+	/* 계좌 등록 함수 */
+	function Add() {
+		var accountNum = document.getElementById('accountNumber').value;
+		var accountOwner = document.getElementById('name').value;
+		var passwd = document.getElementById('passwd').value;
+		var restMoney = document.getElementById('deposit').value;
+		var borrowMoney = document.getElementById('loan').value;
+		
+		
+		
+		if(registAvailability()){
+			if (document.getElementById('kind').value == '입출금 계좌') {
+				manager.add(new Account(accountNum, accountOwner, passwd, restMoney));
+			}else{
+				manager.add(new MinusAccount(accountNum, accountOwner, passwd, restMoney, borrowMoney));
+			}
+		}
+		listAccount();
+	}
+	
+	
+
+	/* 유효성 검증 */
+	function registAvailability() {
+		var regName = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+		var regPasswd = /[0-9]{4}/;
+		var regMoney = /^(0|[1-9][0-9]*)$/;
+		document.getElementById('kindLabel').innerText = '';
+		
+		if (document.getElementById('kind').value == '전체') {
+			document.getElementById('kindLabel').innerText = '계좌종류를 선택해주세요.'
+			
+			return false;
+		}
+		
+		if (document.getElementById('name').value.length < 1) {
+			document.getElementById('name').placeholder = '이름을 입력하세요.';
+			document.getElementById('name').focus();
+			return false;
+		}
+		if (!regName.test(document.getElementById('name').value)) {
+			document.getElementById('name').value = "";
+			document.getElementById('name').placeholder = '한글, 영문으로만 입력해주세요.';
+			document.getElementById('name').focus();
+			return false;
+		}
+		if (document.getElementById('accountNumber').value.length < 1) {
+			document.getElementById('accountNumber').placeholder = '계좌번호를 입력하세요.';
+			document.getElementById('accountNumber').focus();
+			return false;
+		}
+		if (document.getElementById('passwd').value.length < 1) {
+			document.getElementById('passwd').placeholder = '비밀번호를 입력하세요.';
+			document.getElementById('passwd').focus();
+			return false;
+		}
+		if (!regPasswd.test(document.getElementById('passwd').value)
+				|| document.getElementById('passwd').value.length != 4) {
+			document.getElementById('passwd').value = '';
+			document.getElementById('passwd').placeholder = '4자리 숫자로 입력하세요.';
+			document.getElementById('passwd').focus();
+			return false;
+		}
+		if (document.getElementById('deposit').value.length < 1) {
+			document.getElementById('deposit').placeholder = '입금금액을 입력하세요.';
+			document.getElementById('deposit').focus();
+			return false;
+		}
+		if (!regMoney.test(document.getElementById('deposit').value)) {
+			document.getElementById('deposit').value = '';
+			document.getElementById('deposit').placeholder = '형식에 맞게 입력하세요.';
+			document.getElementById('deposit').focus();
+			return false;
+		}
+		if (document.getElementById('kind').value=='마이너스 계좌') {
+			if (document.getElementById('loan').value.length < 1) {
+				document.getElementById('loan').placeholder = '대출금액을 입력하세요.';
+				document.getElementById('loan').focus();
+				return false;
+			}
+			if (!regMoney.test(document.getElementById('loan').value)) {
+				document.getElementById('loan').value = "";
+				document.getElementById('loan').placeholder = '형식에 맞게 입력하세요.';
+				document.getElementById('loan').focus();
+				return false;
+			}
+		}
+		
+		return true;
+		
+
+	}
+</script>
+</head>
+<body>
+
+
+
+  <h1 id="title">계좌 관리 프로그램</h1>
+  <form action="" id="myForm" name="myForm">
+    <fieldset id="left">
+      <legend>계좌 조회</legend>
+      <ul class="management">
+
+        <li>계좌번호 : <input type="search" name="SearchAccNum"
+          id="SearchAccNum"> <input type="button" value="조회"
+          id="show" name="show" class="button"> <input
+          type="button" id="delete" value="삭제" name="delete"
+          class="button"></li>
+        <li>예금주명 : <input type="search" name="searchName"
+          id="searchName" placeholder="예) 홍길동"
+          pattern="[가-힣|a-z|A-Z]{2,}"> <input type="button"
+          id="search" value="검색" name="search" class="button"></li>
+        <li class="buttons"><input type="button" value="전체조회"
+          id="listall" name="listall" class="button"></li>
+      </ul>
+    </fieldset>
+    <fieldset id="right">
+      <legend>계좌 등록</legend>
+      <ul>
+        <li>계좌종류 : <select id="kind">
+            <option>전체
+            <option>입출금 계좌
+            <option>마이너스 계좌
+        </select>
+        <span id="kindLabel"></span>
+        </li>
+        <li>예금주명 : <input type="text" name="name" id="name"
+          placeholder="예) 홍길동"></li>
+        <li>계좌번호 : <input type="search" name="accountNumber"
+          id="accountNumber"></li>
+        <li>비밀번호 : <input type="password" name="passwd" id="passwd"></li>
+        <li>입금금액 : <input type="text" name="deposit" id="deposit"></li>
+        <li>대출금액 : <input type="text" name="loan" id="loan"></li>
+        <li class="buttons"><input type="button" value="신규등록"
+          id="regist" name="regist" class="button"></li>
+      </ul>
+    </fieldset>
+    <fieldset id="bottom">
+      <legend>계좌 목록</legend>
+      <p>단위(원)</p>
+      <table border="1" style="width: 100%" id="insertTable">
+        <tr>
+          <th>계좌종류</th>
+          <th>계좌번호</th>
+          <th>예금주명</th>
+          <th>현재잔액</th>
+          <th>대출금액</th>
+        </tr>
+
+        <!-- <tr>
+
+          <td align="center" colspan="5">내용이 없습니다</td>
+
+        </tr>
+ -->
+        <tbody id="insertBody">
+        </tbody>
+
+      </table>
+    </fieldset>
+  </form>
+
+  <script id="template-table" type="text/template">
+  <tr>
+<td>{accountKind}
+</td>
+<td>{accountNum}
+</td>
+<td>{name}
+</td>
+<td>{deposit}
+</td>
+<td>{loan}
+</td>
+</tr>
+</script>
+
+
+
+</body>
+</html>

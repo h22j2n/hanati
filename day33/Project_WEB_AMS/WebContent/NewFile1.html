@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta charset="utf-8">
+<title></title>
+
+<script>
+
+    function Add() {
+
+        var table1 = document.getElementById("insertTable");
+
+        // tr 개체를 얻어와 속성값을 조절한다.
+
+        var tr = document.createElement("tr");
+
+        tr.setAttribute("bgColor", "#FFFFCC"); // 배경색
+
+        tr.setAttribute("height", "30"); // 높이 
+
+         
+
+        var td1 = document.createElement("td");
+
+        td1.setAttribute("width", "100"); // 넓이
+
+        td1.innerText = document.all.txtHome.value;
+
+        var td2 = document.createElement("td");
+
+        td2.setAttribute("width", "200"); // 넓이
+
+        td2.innerText = document.all.txtAway.value;
+
+ 
+
+        tr.appendChild(td1);
+
+        tr.appendChild(td2);
+
+        // 초기에 보여주는' 내용이 없습니다' 행을 지운다.
+
+        if (table1.firstChild.lastChild.childNodes.length == 1)
+
+            table1.firstChild.removeChild(table1.firstChild.lastChild);
+
+ 
+
+        // 입력된값을 넣은 tr 개체를 추가한다.
+
+        table1.firstChild.appendChild(tr);
+
+    }
+
+</script>
+
+</head>
+
+<body>
+
+<h3>경기</h3>
+
+<table border="1" width="300" id="insertTable">
+
+    <tr>
+
+        <th width="100">홈팀</th>
+
+        <th width="200">원정팀</th>
+
+    </tr>
+
+    <tr>
+
+        <td align="center" colspan="2">내용이 없습니다</td>
+
+    </tr>
+
+</table>
+
+<br/>
+
+홈팀 :
+
+<input type="text" size="10" name="txtHome" />원정팀 :
+
+<input type="text" size="10" name="txtAway" /> 
+
+<button onclick="Add();">추가하기</button>
+
+</body>
+
+</html>
+
+

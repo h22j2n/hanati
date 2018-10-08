@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+
+form {
+	position: absolute;
+	top: 20%;
+	left: 20%;
+	font-family: 'Hanna';
+}
+
+.button {
+	background: #f06bff;
+	background-image: -webkit-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -moz-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -ms-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -o-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: linear-gradient(to bottom, #e8d7ee, #b789cd);
+	-webkit-border-radius: 10;
+	-moz-border-radius: 10;
+	border-radius: 20px;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px 8px 12px;
+	text-decoration: none;
+	border: none;
+	font-family: 'Hanna';
+	-webkit-border-radius: 10;
+	-moz-border-radius: 10;
+	border-radius: 20px;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px 8px 12px;
+	text-decoration: none;
+	border: none;
+}
+
+.button:hover {
+	background: #fafafa;
+	background-image: -webkit-linear-gradient(top, #fafafa, #000000);
+	background-image: -moz-linear-gradient(top, #fafafa, #000000);
+	background-image: -ms-linear-gradient(top, #fafafa, #000000);
+	background-image: -o-linear-gradient(top, #fafafa, #000000);
+	background-image: linear-gradient(to bottom, #fafafa, #000000);
+	text-decoration: none;
+}
+
+ul li {
+	list-style-type: none;
+	line-height: 35px;
+}
+
+fieldset {
+	border-color: #e8d7ee;
+}
+
+#left {
+	width: 380px;
+	height: 300px;
+	float: left;
+}
+
+#right {
+	width: 380px;
+	height: 300px;
+}
+
+#bottom {
+	width: 790px;
+}
+
+.buttons {
+	position: relative;
+	left: 100px;
+	margin-top: 20px;
+}
+
+.management {
+	margin-top: 70px;
+}
+
+p {
+	text-align: right;
+	font-size: 12px;
+	line-height: 5px;
+}
+
+th {
+	background: #e8d7ee;
+}
+
+#title {
+	position: absolute;
+	left: 35%;
+	font-family: 'Nanum Gothic Coding', monospace;
+}

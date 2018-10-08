@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+  <h2>DOM이란?</h2>
+  <p>자리돔 최고!</p>
+  <h2>BOM이란?</h2>
+  <p>자리돔 최고!</p>
+  <h2>Event란?</h2>
+  <p>자리돔 최고!</p>
+
+
+  <script type="text/javascript">
+			// DOM API를 이용한 DOM 객체 접근
+			var array = document.getElementsByTagName('h2');
+			console.log(array.length);
+			for (var i = 0; i < array.length; i++) {
+				var obj = array[i];
+				obj.style = 'color: red';
+			}
+		</script>
+    
+</body>
+</html>

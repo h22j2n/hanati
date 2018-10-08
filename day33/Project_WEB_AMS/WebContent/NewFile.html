@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="./js/Account.js"></script>
+<script type="text/javascript" src="./js/MinusAccount.js"></script>
+<script type="text/javascript" src="./js/AccountManager.js"></script>
+
+</head>
+<body>
+  <script>
+			var account = new Account('1111-1111-1111', '조희진', 1111, 10000);
+			var account2 = new Account('1111-1111-1111', '조희진', 1111, 10000);
+			var account3 = new Account('3333-1111-1111', '서지원', 1111, 30000);
+			var account4 = new Account('4444-1111-1111', '이철우', 1111, 40000);
+			var account5 = new Account('5555-1111-1111', '권현우', 1111, 50000);
+			var account6 = new MinusAccount('9999-1111-1111', '양의지', 1111, 50000,100000);
+			var account7 = new MinusAccount('8888-1111-1111', '박건우', 1111, 50000,150000);
+
+			var manager = new AccountManager();
+			manager.add(account);
+			manager.add(account2);
+			manager.add(account3);
+			manager.add(account4);
+			manager.add(account5);
+			manager.add(account6);
+			manager.add(account7);
+			for ( var i in manager.accounts) {
+				console.log(manager.accounts[i].toString());
+			}
+			console.log(manager);
+			console.log(account.deposit(1000));
+			console.log(account.withdraw(1000));
+			console.log(account.checkPasswd(1111));
+			console.log(account.checkPasswd(1122));
+			console.log(account.toString());
+			console.log('-------------------<br>');
+
+			console.log(manager.get('3333-1111-1111'));
+			console.log(manager.get(''));
+			console.log('-------------------<br>');
+			console.log(manager.get('3333-1111-1112'));
+			console.log(manager.search('서지원'));
+			console.log(manager.search('서지영'));
+			console.log(manager.remove('1111-1111-1111'));
+			console.log(manager.remove('2-1111-1111'));
+			for ( var i in manager.accounts) {
+				console.log(manager.accounts[i].toString());
+			}
+		</script>
+</body>
+</html>
