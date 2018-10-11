@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>modify</title>
+<link href="./css/modify.css" type="text/css" rel="stylesheet">
+<script src="./js/Account.js"></script>
+<script src="./js/MinusAccount.js"></script>
+<script src="./js/ModifyOperator.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		getParentText();
+		eventRegist();
+	}
+	
+</script>
+</head>
+<body>
+  <form action="" id="modifyForm" name="modifyForm">
+    <fieldset id="modify">
+      <legend>정보 수정</legend>
+      <ul class="adjust">
+        <li>계좌종류 <input type="search" name="adjustKind"
+          id="adjustKind" disabled></li>
+        <li>예금주명 <input type="search" name="adjustName"
+          id="adjustName"></li>
+        <li>계좌번호 <input type="search" name="adjustAccountNumber"
+          id="adjustAccountNumber" disabled></li>
+        <li>비밀번호 <input type="password" name="adjustPasswd"
+          id="adjustPasswd" placeholder="예) 0000"></li>
+        <li class="buttons"><input type="button" value="수정"
+          id="adjust" name="adjust" class="button"></li>
+      </ul>
+    </fieldset>
+  </form>
+</body>
+</html>

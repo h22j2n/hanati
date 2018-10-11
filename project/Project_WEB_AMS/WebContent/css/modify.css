@@ -1,0 +1,60 @@
+@CHARSET "EUC-KR";
+
+form {
+	width: 380px;
+	height: 300px;
+	font-family: 'Hanna';
+	margin: auto;
+    
+}
+.button {
+	background: #f06bff;
+	background-image: -webkit-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -moz-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -ms-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: -o-linear-gradient(top, #e8d7ee, #b789cd);
+	background-image: linear-gradient(to bottom, #e8d7ee, #b789cd);
+	-webkit-border-radius: 10;
+	-moz-border-radius: 10;
+	border-radius: 20px;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px 8px 12px;
+	text-decoration: none;
+	border: none;
+	font-family: 'Hanna';
+	-webkit-border-radius: 10;
+	-moz-border-radius: 10;
+	border-radius: 20px;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px 8px 12px;
+	text-decoration: none;
+	border: none;
+}
+
+.button:hover {
+	background: #fafafa;
+	background-image: -webkit-linear-gradient(top, #fafafa, #000000);
+	background-image: -moz-linear-gradient(top, #fafafa, #000000);
+	background-image: -ms-linear-gradient(top, #fafafa, #000000);
+	background-image: -o-linear-gradient(top, #fafafa, #000000);
+	background-image: linear-gradient(to bottom, #fafafa, #000000);
+	text-decoration: none;
+}
+
+ul li {
+	list-style-type: none;
+	line-height: 35px;
+}
+
+fieldset {
+	border-color: #e8d7ee;
+}
+
+.buttons {
+	position: relative;
+	left: 100px;
+	margin-top: 20px;
+}
+
