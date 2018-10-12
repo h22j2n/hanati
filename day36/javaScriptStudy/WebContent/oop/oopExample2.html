@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+
+</head>
+<body>
+  <script type="text/javascript">
+		// 내장 객체 테스트
+		var string = new String('조희진');
+		console.log(string.charAt(1));
+		
+		var today = new Date();
+		console.log(today.toString());
+		
+		var array = new Array(); // 배열 선언은 무조건 이렇게 !
+		array.push(1);
+		array.push('희진');
+		console.log(array.pop());
+		
+//		var sum = new Function("x","y","return x+y;");
+		console.log((new Function("x","y","return x+y;"))(3,3));
+	//	console.log(sum(2,2));
+		</script>
+</body>
+</html>

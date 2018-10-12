@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+<script type="text/javascript">
+// 변수 Hoisting
+for (var i = 0; i < 10; i++) {
+	console.log(i);
+}
+console.log('for문 밖에서 : ' + i);
+
+// 전역변수
+var message = '변수 사용범위';
+
+function x(){
+	// 지역변수
+	//var message2 = "메시지";
+	message2 = "메시지"; //함수 안에서 변수이름만 선언해주면 전역변수가 됨
+}
+function y(){
+	console.log(message);
+	console.log(message2); 
+}
+console.log(message);
+console.log(window.message);
+x();
+y();
+console.log(message2);
+console.log(window.message2);
+</script>
+</body>
+</html>

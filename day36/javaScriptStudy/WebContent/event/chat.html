@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript">
+window.onload = function () {
+	init();
+	eventRegist();
+}
+
+function init(){
+	//초기화작업 setConents 역할
+}
+
+/** 이벤트소스에 이벤트리스너 등록*/
+function eventRegist(){
+	document.getElementById('inputTF').onkeyup = function(e){
+		var event = e || window.event;
+		if (e.keyCode == 13) {
+			appendText();
+		}
+	}
+	
+	document.getElementById('sendB').onclick = function(){
+		appendText();
+	}
+}
+
+
+function appendText(){
+	var input = document.getElementById('inputTF');
+	var text = input.value;
+	var messageTA = document.getElementById("messageTA");
+	messageTA.value += text + '\r\n';
+	input.value = '';
+	input.focus();
+}
+
+</script>
+</head>
+<body>
+<textarea rows="5" cols="50" id="messageTA" ></textarea><br>
+<input type="text" size="40" maxlength="30" id="inputTF"><input type="button" value="전송" id="sendB">
+
+
+</body>
+</html>
