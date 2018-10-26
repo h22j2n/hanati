@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean type="dao" name="userDao" class="kr.or.kosta.shoppingmall.user.dao.JdbcUserDao"/>
+	<bean type="service" name="userService" class="kr.or.kosta.shoppingmall.user.service.UserServiceImpl">
+		<property name="userDaoprop" ref="userDao"/>
+	</bean>
+</beans>
