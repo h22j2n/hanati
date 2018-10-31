@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>미션) 계산기</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	document.getElementById("result").onclick = function(){
+		var selector = document.getElementsByName("operator")[0].value;
+		var num1 = document.getElementsByName("num1")[0].value;
+		var num2 = document.getElementsByName("num2")[0].value;
+		ajax({
+			method: "get",
+			url: "server.jsp",
+			param: "num1="+num1+"&num2="+num2+"&selector="+selector,
+			callback: receiveServer
+		});
+	}
+}
+
+function receiveServer(request){
+	setResult(request.responseText);
+}
+function setResult(result){
+	var output = document.getElementById('output');
+	if(output){
+		output.innerHTML = result;
+	}
+}
+
+</script>
+</head>
+<body>
+  <input type="number" name="num1">
+  <select name="operator">
+    <option>+</option>
+    <option>-</option>
+    <option>*</option>
+    <option>/</option>
+  </select>
+  <input type="number" name="num2">
+  <span id="output"></span>
+  <input type="button" id="result" value="결과보기">
+
+</body>
+</html>
+

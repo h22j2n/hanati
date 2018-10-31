@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 네임스페이스(사용영역) 설정 -->
+<mapper namespace="kr.or.kosta.shoppingmall.user">
+
+	<!-- 전체유저 조회를 위한 SQL 매핑 -->
+	<select id="selectAll" resultType="User">
+		SELECT id,
+		name,
+		passwd,
+		email,
+		regdate
+		FROM users
+	</select>
+
+	<!-- 유저 등록 -->
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO users
+		(id,
+		name,
+		passwd,
+		email)
+		VALUES (#{id},
+		#{name},
+		#{passwd},
+		#{email})
+	</insert>
+
+	<!-- id로 유저 조회 -->
+	<select id="selectUserbyId" parameterType="String"
+		resultType="User">
+		SELECT id,
+		name,
+		passwd,
+		email
+		FROM users
+		WHERE id = #{id}
+	</select>
+
+	<!-- 유저 정보 수정 -->
+
+	<update id="updateUser" parameterType="User">
+		UPDATE users
+		SET passwd =
+		#{passwd},
+		email = #{email}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 유저 삭제 -->
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM users
+		WHERE id
+		= #{id}
+	</delete>
+
+
+	<!-- id와 비밀번호로 유저 조회 -->
+	<select id="selectUserbyIdPw" parameterType="map"
+		resultType="User">
+		SELECT id,
+		name,
+		passwd,
+		email,
+		TO_CHAR(regdate, 'YYYY\"년\" MM\"월\" DD\"일\" DAY') regdate
+		FROM users
+		WHERE id = #{id} AND passwd = #{passwd}
+	</select>
+
+
+	<!-- 선택페이지에 따른 사용자 목록 반환 -->
+	<select id="selectUserbyPage" parameterType="int"
+		resultType="User">
+		SELECT id,
+		name,
+		passwd,
+		email,
+		regdate
+		FROM (SELECT Ceil(ROWNUM / 10) request_page,
+		id,
+		name,
+		passwd,
+		email,
+		regdate
+		FROM (SELECT id,
+		name,
+		passwd,
+		email,
+		To_char(regdate, 'YYYY-MM-DD HH24:MI') regdate
+		FROM users
+		ORDER BY regdate DESC))
+		WHERE request_page = #{page}
+	</select>
+
+
+	<!-- 선택페이지, 조회 목록개수에 따른 사용자 목록 반환 -->
+	<select id="selectUserbyPage2" parameterType="map"
+		resultType="User">
+		SELECT id,
+		NAME,
+		passwd,
+		email,
+		regdate
+		FROM (SELECT Ceil(rownum /#{listSize}) request_page,
+		id,
+		NAME,
+		passwd,
+		email,
+		regdate
+		FROM (SELECT id,
+		NAME,
+		passwd,
+		email,
+		To_char(regdate, 'YYYY-MM-DD HH24:MI') regdate
+		FROM users
+		ORDER BY regdate DESC))
+		WHERE request_page = #{page}
+	</select>
+
+
+	<!-- 선택페이지, 조회 목록개수, 검색유형, 검색값에 따른 사용자 목록 반환 -->
+	<select id="selectUserbyPage3" parameterType="map"
+		resultType="User">
+		SELECT id,
+		name,
+		passwd,
+		email,
+		regdate
+		FROM (
+		SELECT ceil(ROWNUM/#{listSize}) request_page,
+		id,
+		name,
+		passwd,
+		email,
+		regdate
+		FROM (
+		SELECT id,
+		name,
+		passwd,
+		email,
+		to_char(regdate, 'YYYY-MM-DD HH24:MI') regdate
+		FROM users
+		<if test="searchType != null">
+			<choose>
+				<when test="searchType == 'id'">
+					WHERE id = #{searchValue}
+				</when>
+				<when test="searchType == 'name'">
+					WHERE name like concat(concat('%',#{searchValue}),'%')				
+					</when>
+				<otherwise></otherwise>
+			</choose>
+		</if>
+		ORDER BY regdate DESC))
+		WHERE request_page = #{page}
+	</select>
+
+
+
+	<!-- 검색유형, 검색값에 따른 사용자 개수 반환 - 페이징 처리 시 필요 -->
+	<select id="selectCountbySearch" parameterType="map"
+		resultType="int">
+		SELECT COUNT(id)
+		FROM users
+		<if test="searchType != null">
+			<choose>
+				<when test="searchType == 'id'">
+					WHERE id = #{searchValue}
+				</when>
+				<when test="searchType == 'name'">
+					WHERE name like concat(concat('%',#{searchValue}),'%')
+				</when>
+				<otherwise></otherwise>
+			</choose>
+		</if>
+	</select>
+
+
+</mapper>

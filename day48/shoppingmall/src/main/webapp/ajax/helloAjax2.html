@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById("send").onclick = function() {
+			var message = document.getElementById("message").value;
+			encodeURIComponent(message);
+			sendServer(message);
+		}
+	}
+
+	function sendServer(message) {
+		var request = new XMLHttpRequest();
+		var param = "message="+message;
+		var url = "server.jsp";
+		request.open("post", url, true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		// 객체 상태가 바뀔 때마다 이벤트 처리가 하고 싶을 때
+		request.onreadystatechange = function() {
+			if (request.readyState == 4) {
+				if(request.status == 200){// 정상 요청
+					appendMessage(request.responseText); //server.jsp 에서 out.println으로 보낸것 
+				}else if(request.status == 400){//잘못된 요청
+					alert("잘못된 요청입니당~");
+				}else if(request.status == 404){
+					alert("요청한 페이지를 찾을 수 없습니다..");
+				}else if(request.status == 500){
+					alert("서버가 잘못 했넹..");
+				}
+			}else{ // 데이터가 수신 중
+				console.log("서버로부터 데이터 수신중...");
+			}
+		}
+		request.send(param);
+	}
+
+	function appendMessage(message) {
+		var messageBox = document.getElementById("messageBox");
+		if (messageBox) {
+			messageBox.innerHTML = message;
+		}
+	}
+</script>
+
+
+</head>
+<body>
+  <input type="text" name="message" id="message" size="20"
+    value="기본 텍스트">
+  <input type="button" value="전송" id="send">
+  <span id="messageBox"></span>
+
+</body>
+</html>
